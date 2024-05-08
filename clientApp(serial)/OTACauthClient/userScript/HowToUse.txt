@@ -1,0 +1,17 @@
+Note - Root privilege required.
+
+[ GetSerial.sh ]
+sh GetSerial.sh
+
+[ change-ip.sh ]
+sh change-ip.sh <server_ip_address>
+ex) sh change-ip.sh 192.168.1.10
+
+[ register-license.sh ]
+sh register-license.sh <path_of_the_license_file>  <path_of_the_publicKey_file>
+ex) sh register-license.sh /opt/plcnext/OTAClicense.pem /opt/plcnext/OTACpub.key
+
+Note - Reboot is required for application.
+
+
+
