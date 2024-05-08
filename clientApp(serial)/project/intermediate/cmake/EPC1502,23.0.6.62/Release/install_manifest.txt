@@ -1,0 +1,1 @@
+/home/ubuntu/plc/epc/epc1502/work/OTACauthClient/bin/EPC1502_23.0.6.62/Release/lib/libOTACauthClient.so
