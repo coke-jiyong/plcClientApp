@@ -92,15 +92,11 @@ start ()
   
   if [ ! -d ${OTAC_LICENSE} ]; then
     mkdir -p "${OTAC_LICENSE}"
-	touch "${OTAC_LICENSE}/clientLicense.pem"
-	touch "${OTAC_LICENSE}/clientPub.key"
-	chown 1002:1002 "${OTAC_LICENSE}/clientLicense.pem"
-	chown 1002:1002	"${OTAC_LICENSE}/clientPub.key"
+	touch "${OTAC_LICENSE}/swidchauth.lic"
+	chown 1002:1002 "${OTAC_LICENSE}/swidchauth.lic"
   else
-	touch "${OTAC_LICENSE}/clientLicense.pem"
-	touch "${OTAC_LICENSE}/clientPub.key"
-	chown 1002:1002 "${OTAC_LICENSE}/clientLicense.pem"
-	chown 1002:1002	"${OTAC_LICENSE}/clientPub.key"
+	touch "${OTAC_LICENSE}/swidchauth.lic"
+	chown 1002:1002 "${OTAC_LICENSE}/swidchauth.lic"
   fi
   
   ################################################################################################################
@@ -142,14 +138,8 @@ stop ()
   ################################################################################################################
   echo "$(date): Remove ${CONFIGFILE_PATH}/Authentication.modules.config" >> $APP_LOG
   rm ${CONFIGFILE_PATH}/Authentication.modules.config
-  echo "$(date): Remove ${CONFIGFILE_PATH}/UmModuleEx.config" >> $APP_LOG
-  rm ${CONFIGFILE_PATH}/UmModuleEx.config
   echo "$(date): Remove /opt/plcnext/userScript" >> $APP_LOG
   rm -r /opt/plcnext/userScript
-  echo "$(date): Remove /opt/plcnext/otac/license/clientLicense.pem" >> $APP_LOG
-  echo "$(date): Remove /opt/plcnext/otac/license/clientPub.key" >> $APP_LOG
-  rm /opt/plcnext/otac/license/clientLicense.pem
-  rm /opt/plcnext/otac/license/clientPub.key
   echo "$(date): stop() finished" >> $APP_LOG
   ################################################################################################################
   
