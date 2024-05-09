@@ -1,0 +1,1 @@
+/home/ubuntu/plc/axcf/axcf1152/work/OTACauthClient/bin/AXCF1152_23.6.0.37/Release/lib/libOTACauthClient.so

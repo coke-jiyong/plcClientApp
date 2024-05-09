@@ -65,9 +65,9 @@ Json::String Verify::Get_Data() { return ver_json.toStyledString() ; }
 
 bool checkLicense::validateHostId(char * serial)
 {   
-    if (dec_obj.has_claim("serialNumber")) {
+    if (dec_obj.has_claim("hostId")) {
         
-        this->payload = this->dec_obj.payload().get_claim_value<std::string>("serialNumber"); //payload serialNumber
+        this->payload = this->dec_obj.payload().get_claim_value<std::string>("hostId"); //payload serialNumber
         if (payload.find('|') != string::npos){
             this->v = split(this->payload , '|');
             for (int i = 0 ; i < this->v.size() ; i ++) {
@@ -84,7 +84,7 @@ bool checkLicense::validateHostId(char * serial)
         
     }
 
-    throw std::runtime_error("The 'serialNumber' does not exist in the payload.");
+    throw std::runtime_error("The 'hostId' does not exist in the payload.");
 }
 
 void checkLicense::init()
@@ -218,3 +218,4 @@ std::string readFileToString(const std::string& filename) {
     file.close();
     return buffer.str();  
 }
+

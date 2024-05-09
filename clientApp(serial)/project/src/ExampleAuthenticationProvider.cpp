@@ -19,42 +19,48 @@ using namespace Arp::System::Rsc::Services;
 using namespace Arp::System::Commons::Services::Security;
 using namespace std;
 
+string error_string_std;
+string error_string_arp;
+IdentityValidationResult result;
 namespace Arp { namespace System { namespace UmModuleEx
 {
 ExampleAuthenticationProvider::ExampleAuthenticationProvider(UmModuleEx& _mod) 
     : mod(_mod)
 {   
-    log.PrintDebug("--------------------OTACAuthenticationProvider--------------------");
     bool LicenseResult = true;
-    const std::string pub_key_path = "/opt/plcnext/otac/license/clientPub.key";
-    const std::string token_path = "/opt/plcnext/otac/license/clientLicense.pem";
-    std::string PEM = readFileToString("/opt/plcnext/apps/50002172000829/AuthenticationProvider/certificates/certificate.pem");
+    const std::string pub_key_path = "/opt/plcnext/apps/60002172000868/pub.key";
+    const std::string token_path = "/opt/plcnext/otac/license/swidchauthclient.lic";
+    std::string PEM = readFileToString("/opt/plcnext/apps/60002172000868/AuthenticationProvider/certificates/certificate.pem");
 
     const RscString<4096> pem(PEM.c_str());
     RscString<80> id("IDevID");
+
     IDeviceIdentityValidatorService::Ptr ptr;
-    IdentityValidationResult result;
+    
     try{
         ptr = ServiceManager::GetService<IDeviceIdentityValidatorService>();
         result = ptr->Validate(pem , id);
     }
     catch(Arp::Exception & e){
-        log.Debug("OTACLicenseCheck: Arp::Exception=[ {0} ]" , e.GetMessage());
+        //log.Debug("OTACLicenseCheck: Arp::Exception=[ {0} ]" , e.GetMessage());
+        error_string_arp = e.GetMessage().CStr();
         LicenseResult = false;
     }
 
     if(result.Error != IdentityValidationError::None) {
-        log.Debug("OTACLicenseCheck: IdentityValidationError=[ {0} ]", result.Error);
         LicenseResult = false;
     }
+
     char * serialNumber = result.SubjectSerialNumber.CStr();
     checkLicense handle(pub_key_path, token_path);
+
     try{
         handle.init();
         handle.validateHostId(serialNumber);
     }
     catch(std::runtime_error & e){
-        log.Debug("OTACLicenseCheck: std::runtime_error=[ {0} ]" , e.what());
+        //log.Debug("OTACLicenseCheck: std::runtime_error=[ {0} ]" , e.what());
+        error_string_std = e.what();
         LicenseResult = false;
     }
 
@@ -63,7 +69,6 @@ ExampleAuthenticationProvider::ExampleAuthenticationProvider(UmModuleEx& _mod)
     }
     
     handle.clear();
-    log.PrintDebug("--------------------------------------------------------");
 }
 
 UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const String& username,
@@ -74,7 +79,16 @@ UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const Str
         return UmAuthenticationResult::Failed;
     }
     if(!mod.UserAuthStarted()){
-        log.Debug("OTACAuthenticationProvider: License check failed.");
+        log.PrintDebug("OTACAuthenticationProvider: License check failed");
+        if(!error_string_std.empty()) {
+            log.Debug("--- {0}",error_string_std);
+        }
+        if(!error_string_arp.empty()) {
+            log.Debug("--- {0}",error_string_arp);
+        }
+        if (result.Error != IdentityValidationError::None) {
+            log.Debug("--- {0}",result.Error);
+        }
         return UmAuthenticationResult::Failed;
     }
 
@@ -83,7 +97,7 @@ UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const Str
     Verify handler(password.CStr());    
 #if 1
     if( !handler.Set_Host_IP() ) {
-        log.Debug("OTACAuthenticationProvider: Error in getIP().");
+        log.Debug("OTACAuthenticationProvider: Set_Host_IP failed.");
         return UmAuthenticationResult::Failed;
     }
 #endif
