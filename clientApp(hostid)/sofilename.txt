@@ -1,0 +1,8 @@
+libOTACauthClient-axcf1152
+libOTACauthClient-axcf2152
+libOTACauthClient-axcf3152
+libOTACauthClient-epc1502
+libOTACauthClient-epc1522
+
+
+60002172000868

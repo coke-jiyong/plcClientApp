@@ -4,7 +4,7 @@
 
 CONFIGFILE_PATH="/opt/plcnext/config/System/Um/Modules"
 current_user=$(whoami)
-APP_CONFIG="/opt/plcnext/apps/50002172000829/AuthenticationProvider/config/UmModuleEx.config"
+APP_CONFIG="/opt/plcnext/apps/60002172000868/AuthenticationProvider/config/UmModuleEx.config"
 if [ ! "$current_user" = "root" ]; then
 	echo "Error: Please execute with root privileges."
 	exit 1

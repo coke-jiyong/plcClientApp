@@ -132,16 +132,12 @@ stop ()
   currentRunlevel=$(runlevel | cut -d ' ' -f2)
   echo "$(date): current runlevel=${currentRunlevel}" >> $APP_LOG
 
-  
-  
-  
-  ################################################################################################################
   echo "$(date): Remove ${CONFIGFILE_PATH}/Authentication.modules.config" >> $APP_LOG
   rm ${CONFIGFILE_PATH}/Authentication.modules.config
   echo "$(date): Remove /opt/plcnext/userScript" >> $APP_LOG
   rm -r /opt/plcnext/userScript
   echo "$(date): stop() finished" >> $APP_LOG
-  ################################################################################################################
+
   
   echo "$(date): stop() finished" >> $APP_LOG
   # write Podman events to syslog

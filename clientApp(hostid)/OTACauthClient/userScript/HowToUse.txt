@@ -6,7 +6,7 @@ ex) sh change-ip.sh 192.168.1.10
 
 [ register-license.sh ]
 sh register-license.sh <path_of_the_license_file>
-ex) sh register-license.sh /opt/plcnext/swidchauth.lic
+ex) sh register-license.sh /opt/plcnext/swidchauthclient.lic
 
 Note - Reboot is required for application.
 
