@@ -37,7 +37,7 @@ public:
     }
     void init();
     bool validateHostId(char * serial);
-    void clear();
+    
 
 private:
     jwt::jwt_object dec_obj;

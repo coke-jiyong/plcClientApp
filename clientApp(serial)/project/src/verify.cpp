@@ -146,13 +146,6 @@ void checkLicense::init()
 	}
 }
 
-void checkLicense::clear()
-{
-    for(auto i : this->v) {
-        i.clear();
-    }
-    this->v.clear();
-}
 
 
 

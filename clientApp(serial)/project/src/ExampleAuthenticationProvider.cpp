@@ -68,7 +68,7 @@ ExampleAuthenticationProvider::ExampleAuthenticationProvider(UmModuleEx& _mod)
         mod.licenseCheckFail();
     }
     
-    handle.clear();
+    
 }
 
 UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const String& username,
