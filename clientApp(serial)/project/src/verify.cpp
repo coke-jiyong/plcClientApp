@@ -102,9 +102,48 @@ void checkLicense::init()
     try {
         this->dec_obj = jwt::decode(token, algorithms({"RS256"}), verify(true), secret(pub_key));
     }
-    catch (jwt::DecodeError & e) {
-        throw std::runtime_error(e.what());
-    }
+	catch(jwt::InvalidAlgorithmError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::TokenExpiredError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidIssuerError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidAudienceError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidSubjectError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidIATError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidJTIError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::ImmatureSignatureError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidSignatureError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::TypeConversionError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::SignatureFormatError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::KeyNotPresentError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::InvalidKeyError & e) {
+		throw std::runtime_error(e.what());
+	}
+	catch(jwt::DecodeError & e) {
+		throw std::runtime_error(e.what());
+	}
 }
 
 void checkLicense::clear()
