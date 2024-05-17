@@ -128,22 +128,11 @@ UmAuthenticationResult ExampleAuthenticationProvider::result_check(Json::Value R
                     roles.push_back(result[i]);
                 }
                 sessionInfo.SetRoles(roles);
-                for(auto i : result) {
-                    i.clear();
-                }
-                vector<string>().swap(result);
-                result.clear();
-                for(auto i : roles) {
-                    i.Clear();
-                }
-                list<String>().swap(roles);
-                roles.clear();
                 return UmAuthenticationResult::Success;
             }
             roles = {Roles};
             sessionInfo.SetRoles(roles);   
-            std::list<String>().swap(roles);   
-            roles.clear();      
+            
             return UmAuthenticationResult::Success;
         }
         else{   
