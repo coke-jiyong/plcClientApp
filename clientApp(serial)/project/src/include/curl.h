@@ -27,7 +27,7 @@ class CURL_Handler {
 		
 		struct			curl_slist *headers;
 		
-		static size_t 		write_callback(void *_contents, size_t _size, size_t _nmemb, void *_userp);
+		static size_t 	write_callback(void *_contents, size_t _size, size_t _nmemb, void *_userp);
 		
 	public  :
 		CURL_Handler(bool _is_debug_print = false);
@@ -46,7 +46,7 @@ class CURL_Handler {
 		void			set_server_info(string _target_url);
 
 		
-		int			request(void);
+		int				request(void);
 		string			response(void);
 };
 

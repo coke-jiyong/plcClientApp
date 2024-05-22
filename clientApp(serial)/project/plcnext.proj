@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ProjectSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.phoenixcontact.com/schema/cliproject">
-  <Target>AXCF1152,2023.6.0 (23.6.0.37)</Target>
+  <Target>AXCF3152,2023.0.2 LTS (23.0.2.56)</Target>
   <Version>2.0</Version>
   <Name>OTACauthClient</Name>
   <GenerateDTArrayNameByType>true</GenerateDTArrayNameByType>

@@ -24,6 +24,7 @@ class Verify
         std::string         Get_Response();
         Json::String        Get_Data();
         const char *        Get_Ip();
+        
 };
 
 
@@ -40,16 +41,16 @@ public:
     
 
 private:
-    jwt::jwt_object dec_obj;
-    const std::string pub_key_path;
-    const std::string token_path;
-    string payload;
+    jwt::jwt_object     dec_obj;
+    const std::string   pub_key_path;
+    const std::string   token_path;
+    string              payload;
     std::vector<string> v;
 };
 
 vector<string>      split(string input, char dlim);
 int                 getConnectedIp(std::string& buf);
-std::string readFileToString(const std::string& filename) ;
+std::string         readFileToString(const std::string& filename) ;
 
 
 #endif

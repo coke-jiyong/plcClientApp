@@ -62,7 +62,6 @@ Json::String Verify::Get_Data() { return ver_json.toStyledString() ; }
 
 
 
-
 bool checkLicense::validateHostId(char * serial)
 {   
     if (dec_obj.has_claim("hostId")) {
@@ -145,6 +144,7 @@ void checkLicense::init()
 		throw std::runtime_error(e.what());
 	}
 }
+
 
 
 

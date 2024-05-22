@@ -1,0 +1,7 @@
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/install/strip.dir
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/install/local.dir
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/list_install_components.dir
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/install.dir
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/edit_cache.dir
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/OTACauthClient.dir
+/home/ubuntu/plc/axcf/axcf3152/work/OTACauthClient/intermediate/cmake/AXCF3152,23.0.2.56/Release/CMakeFiles/rebuild_cache.dir

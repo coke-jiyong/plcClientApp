@@ -24,7 +24,7 @@ CURL_Handler::~CURL_Handler(void) {
 		curl_easy_cleanup(this->curl_handle);
 		this->curl_handle = NULL;
 	}
-	
+	curl_slist_free_all(this->headers);
 	return ;
 }
 		
@@ -163,6 +163,10 @@ int	CURL_Handler::request(void) {
 	}
 	curl_easy_setopt(this->curl_handle, CURLOPT_URL, this->url.c_str());
 	
+	//curl_easy_setopt(this->curl_handle, CURLOPT_CAINFO, "/etc/ssl/certs/ca-certificates.crt");
+	curl_easy_setopt(this->curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(this->curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
+
 	this->read_buffer   = "";
 	this->curl_ret_code = curl_easy_perform(this->curl_handle);
 	

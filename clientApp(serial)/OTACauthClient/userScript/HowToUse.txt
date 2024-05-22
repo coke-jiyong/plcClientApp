@@ -29,3 +29,9 @@ Reboot Command - /etc/init.d/plcnext restart
 
 
 
+[ GetVersion.sh ]
+Note - Return version of the this application.
+Usage : sh GetVersion.sh
+
+
+

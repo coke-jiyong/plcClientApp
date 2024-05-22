@@ -19,14 +19,14 @@ using namespace Arp::System::Rsc::Services;
 using namespace Arp::System::Commons::Services::Security;
 using namespace std;
 
-string error_string_std;
-string error_string_arp;
-IdentityValidationResult result;
+static string error_string_std;
+static string error_string_arp;
+static IdentityValidationResult result;
 namespace Arp { namespace System { namespace UmModuleEx
 {
 ExampleAuthenticationProvider::ExampleAuthenticationProvider(UmModuleEx& _mod) 
     : mod(_mod)
-{   
+{  
     bool LicenseResult = true;
     const std::string pub_key_path = "/opt/plcnext/apps/60002172000868/pub.key";
     const std::string token_path = "/opt/plcnext/otac/license/swidchauthclient.lic";
@@ -74,12 +74,13 @@ ExampleAuthenticationProvider::ExampleAuthenticationProvider(UmModuleEx& _mod)
 UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const String& username,
         const String& password, SessionInfo& sessionInfo)
 {   
-    if (!mod.Started()) 
-    {
+    if (!mod.Started()) {
         return UmAuthenticationResult::Failed;
     }
     if(!mod.UserAuthStarted()){
+
         log.PrintDebug("OTACAuthenticationProvider: License check failed");
+        
         if(!error_string_std.empty()) {
             log.Debug("--- {0}",error_string_std);
         }
@@ -89,6 +90,7 @@ UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const Str
         if (result.Error != IdentityValidationError::None) {
             log.Debug("--- {0}",result.Error);
         }
+
         return UmAuthenticationResult::Failed;
     }
 
@@ -111,6 +113,7 @@ UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const Str
     log.Debug("OTACAuthenticationProvider: Server Address : {0}" , userconf.url.CStr());
     log.Debug("OTACAuthenticationProvider: {0}" , handler.Get_Response());
     
+    
    return result_check(root, username, sessionInfo);
 }
 
@@ -128,6 +131,7 @@ UmAuthenticationResult ExampleAuthenticationProvider::result_check(Json::Value R
                     roles.push_back(result[i]);
                 }
                 sessionInfo.SetRoles(roles);
+                
                 return UmAuthenticationResult::Success;
             }
             roles = {Roles};
