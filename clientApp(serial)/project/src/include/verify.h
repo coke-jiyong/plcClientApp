@@ -16,7 +16,6 @@ class Verify
 
     public:
         Verify(const char * _otac);
-        Verify();
         bool                Set_Host_IP();
         void                Set_Post(const char* url);
         void                Request();
@@ -36,6 +35,7 @@ public:
     {
 
     }
+    checkLicense(void){}
     void init();
     bool validateHostId(char * serial);
     
@@ -46,6 +46,7 @@ private:
     const std::string   token_path;
     string              payload;
     std::vector<string> v;
+    
 };
 
 vector<string>      split(string input, char dlim);

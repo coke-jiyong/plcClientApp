@@ -9,66 +9,48 @@
 #include "include/UmModuleExConfig.hpp"
 #include "include/verify.h"
 
-#include "Arp/System/Rsc/Services/RscString.hxx"
-#include "Arp/System/Commons/Services/Security/IDeviceIdentityValidatorService.hpp"
-#include "Arp/System/Commons/Services/Security/IdentityValidationResult.hpp"
-#include "Arp/System/Commons/Services/Security/IdentityValidationError.hpp"
-#include "Arp/System/Rsc/ServiceManager.hpp"
+
 using namespace Arp::System::Rsc;
 using namespace Arp::System::Rsc::Services;
 using namespace Arp::System::Commons::Services::Security;
 using namespace std;
-
-static string error_string_std;
-static string error_string_arp;
+const std::string pub_key_path = "/opt/plcnext/apps/60002172000868/pub.key";
+const std::string token_path = "/opt/plcnext/otac/license/swidchauthclient.lic";
+const std::string PEM = readFileToString("/opt/plcnext/apps/60002172000868/AuthenticationProvider/certificates/certificate.pem");
+const RscString<4096> pem(PEM.c_str());
+const RscString<80> id("IDevID");
 static IdentityValidationResult result;
 namespace Arp { namespace System { namespace UmModuleEx
 {
+std::string ExampleAuthenticationProvider::error_msg = "";
 ExampleAuthenticationProvider::ExampleAuthenticationProvider(UmModuleEx& _mod) 
     : mod(_mod)
 {  
     bool LicenseResult = true;
-    const std::string pub_key_path = "/opt/plcnext/apps/60002172000868/pub.key";
-    const std::string token_path = "/opt/plcnext/otac/license/swidchauthclient.lic";
-    std::string PEM = readFileToString("/opt/plcnext/apps/60002172000868/AuthenticationProvider/certificates/certificate.pem");
-
-    const RscString<4096> pem(PEM.c_str());
-    RscString<80> id("IDevID");
-
-    IDeviceIdentityValidatorService::Ptr ptr;
-    
-    try{
-        ptr = ServiceManager::GetService<IDeviceIdentityValidatorService>();
-        result = ptr->Validate(pem , id);
-    }
-    catch(Arp::Exception & e){
-        //log.Debug("OTACLicenseCheck: Arp::Exception=[ {0} ]" , e.GetMessage());
-        error_string_arp = e.GetMessage().CStr();
-        LicenseResult = false;
-    }
-
+    IDeviceIdentityValidatorService::Ptr ptr = ServiceManager::GetService<IDeviceIdentityValidatorService>();
+    result = ptr->Validate(pem , id);
     if(result.Error != IdentityValidationError::None) {
         LicenseResult = false;
     }
+    else {
+        char * serialNumber = result.SubjectSerialNumber.CStr();
+        checkLicense handle(pub_key_path, token_path);
 
-    char * serialNumber = result.SubjectSerialNumber.CStr();
-    checkLicense handle(pub_key_path, token_path);
-
-    try{
-        handle.init();
-        handle.validateHostId(serialNumber);
+        try{
+            handle.init();
+            handle.validateHostId(serialNumber);
+        }
+        catch(std::runtime_error & e){
+            //log.Debug("OTACLicenseCheck: std::runtime_error=[ {0} ]" , e.what());
+            ExampleAuthenticationProvider::error_msg = e.what();
+            LicenseResult = false;
+        }
     }
-    catch(std::runtime_error & e){
-        //log.Debug("OTACLicenseCheck: std::runtime_error=[ {0} ]" , e.what());
-        error_string_std = e.what();
-        LicenseResult = false;
-    }
+    
 
     if(LicenseResult == false) {
         mod.licenseCheckFail();
     }
-    
-    
 }
 
 UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const String& username,
@@ -77,20 +59,9 @@ UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const Str
     if (!mod.Started()) {
         return UmAuthenticationResult::Failed;
     }
-    if(!mod.UserAuthStarted()){
-
+    if(!mod.UserAuthStarted()) {
         log.PrintDebug("OTACAuthenticationProvider: License check failed");
-        
-        if(!error_string_std.empty()) {
-            log.Debug("--- {0}",error_string_std);
-        }
-        if(!error_string_arp.empty()) {
-            log.Debug("--- {0}",error_string_arp);
-        }
-        if (result.Error != IdentityValidationError::None) {
-            log.Debug("--- {0}",result.Error);
-        }
-
+        this->print_error();
         return UmAuthenticationResult::Failed;
     }
 
@@ -146,6 +117,15 @@ UmAuthenticationResult ExampleAuthenticationProvider::result_check(Json::Value R
     return UmAuthenticationResult::Failed;    
 }
 
+void ExampleAuthenticationProvider::print_error() const{
+    
+    if (result.Error != IdentityValidationError::None) {
+        log.Debug("--- {0}", result.Error);
+    }
+    if (!ExampleAuthenticationProvider::error_msg.empty()) {
+        log.Debug("--- {0}", ExampleAuthenticationProvider::error_msg);
+    }
+}
 
 void ExampleAuthenticationProvider::OnSessionClose(SessionInfo& session)
 {

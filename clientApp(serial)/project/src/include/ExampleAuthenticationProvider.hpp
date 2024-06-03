@@ -17,6 +17,12 @@
 #include <cstring>
 #include <fstream>
 #define IP_SIZE 16
+#include "Arp/System/Rsc/Services/RscString.hxx"
+#include "Arp/System/Commons/Services/Security/IDeviceIdentityValidatorService.hpp"
+#include "Arp/System/Commons/Services/Security/IdentityValidationResult.hpp"
+#include "Arp/System/Commons/Services/Security/IdentityValidationError.hpp"
+#include "Arp/System/Rsc/ServiceManager.hpp"
+
 
 
 namespace Arp { namespace System { namespace UmModuleEx
@@ -24,13 +30,14 @@ namespace Arp { namespace System { namespace UmModuleEx
 using Arp::System::Um::Commons::IAuthenticationProvider;
 using Arp::System::Um::Commons::UmAuthenticationResult;
 using Arp::System::Um::Commons::SessionInfo;
-
 class UmModuleEx;
 
 class ExampleAuthenticationProvider : public IAuthenticationProvider, private Loggable<ExampleAuthenticationProvider>
 {
-public: // typedefs
 
+public: // typedefs
+    static std::string error_msg;
+    void print_error() const;
 public: // construction/destruction
     /// <summary>Constructs an <see cref="ExampeAuthenticationProvider" /> instance.</summary>
     explicit ExampleAuthenticationProvider(UmModuleEx& mod);
@@ -55,7 +62,6 @@ public: // IAuthenticationProvider methods
 private:
     UmModuleEx& mod;
 };
-
 
 
 

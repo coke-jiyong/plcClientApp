@@ -9,11 +9,7 @@ Verify::Verify(const char * _otac)
     //ver_json["plcDeviceId"] = "127.0.0.1";
 }
 
-Verify::Verify()
-{
-    //cout << "input parameter(otac)"<< endl;
-    return;
-}
+
 
 bool Verify::Set_Host_IP()
 {
