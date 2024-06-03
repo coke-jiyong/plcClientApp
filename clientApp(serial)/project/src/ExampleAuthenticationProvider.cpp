@@ -68,22 +68,21 @@ UmAuthenticationResult ExampleAuthenticationProvider::AuthenticateUser(const Str
     log.Debug("OTACAuthenticationProvider: License check success.");
     const UserConfTag& userconf = mod.GetConfig()->userConf;
     Verify handler(password.CStr());    
-#if 1
+
     if( !handler.Set_Host_IP() ) {
         log.Debug("OTACAuthenticationProvider: Set_Host_IP failed.");
         return UmAuthenticationResult::Failed;
     }
-#endif
+
     handler.Set_Post(userconf.url.CStr()); 
     handler.Request();
     Json::Value root = handler.Get_Root(); 
 
 #if 1
     log.Debug("OTACAuthenticationProvider: Host Address : {0}" , handler.Get_Ip());
-#endif
     log.Debug("OTACAuthenticationProvider: Server Address : {0}" , userconf.url.CStr());
     log.Debug("OTACAuthenticationProvider: {0}" , handler.Get_Response());
-    
+#endif    
     
    return result_check(root, username, sessionInfo);
 }
